@@ -1,0 +1,37 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="WorkoutApp.Views.Workouts"
+             xmlns:viewModels="clr-namespace:WorkoutApp.ViewModels"
+             x:Name="Root">
+
+    <ContentPage.BindingContext>
+        <viewModels:WorkoutsViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Label Text="{Binding Category.Description}" HorizontalOptions="CenterAndExpand" Font="Bold,17" Margin="20" />
+            <ListView ItemsSource="{Binding Workouts}" Grid.Row="1" RowHeight="100">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid Margin="{StaticResource DefaultPadding}">
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding BindingContext.NavigateToWorkoutCommand, Source={x:Reference Root}}"
+                                                          CommandParameter="{Binding}" />
+                                </Grid.GestureRecognizers>
+
+                                <Label Style="{StaticResource CategoryLabel}" Text="{Binding Title}" HorizontalOptions="CenterAndExpand"></Label>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

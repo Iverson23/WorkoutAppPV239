@@ -1,0 +1,12 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<TabbedPage xmlns="http://xamarin.com/schemas/2014/forms"
+            xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+            xmlns:local="clr-namespace:WorkoutApp"
+            xmlns:pages="clr-namespace:WorkoutApp.Views"
+            x:Class="WorkoutApp.Views.MainPage"
+            Title="Workout app project"
+            x:Name="Root">
+
+    <pages:WorkoutCategories />
+    <pages:ExcerciseBodyParts />
+</TabbedPage>

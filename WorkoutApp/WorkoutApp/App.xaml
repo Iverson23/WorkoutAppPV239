@@ -1,0 +1,26 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<Application xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:converters="clr-namespace:WorkoutApp.Converters"
+             x:Class="WorkoutApp.App">
+	<Application.Resources>
+        <ResourceDictionary>
+            <converters:CategoryTitleToImageConverter x:Key="ImageConverter"/>
+            <Thickness x:Key="DefaultPadding">10</Thickness>
+
+            <Style TargetType="Label" x:Key="CategoryLabel">
+                <Setter Property="Font" Value="Large"/>
+                <Setter Property="Margin" Value="20"/>
+                <Setter Property="TextColor" Value="Black"></Setter>
+                <Setter Property="VerticalOptions" Value="CenterAndExpand"/>
+                <Setter Property="HorizontalOptions" Value="StartAndExpand" />
+            </Style>
+            <Style TargetType="ListView">
+                <Setter Property="BackgroundColor" Value="LavenderBlush"></Setter>
+            </Style>
+            <Style TargetType="Button">
+                <Setter Property="BackgroundColor" Value="LightGray"></Setter>
+            </Style>
+        </ResourceDictionary>
+    </Application.Resources>
+</Application>

@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="WorkoutApp.Views.ExcerciseBodyParts"
+             xmlns:viewModels="clr-namespace:WorkoutApp.ViewModels"
+             Icon="dumbbellIcon.png"
+             x:Name="Root">
+    <ContentPage.BindingContext>
+        <viewModels:ExcercisesViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto" />
+                <RowDefinition Height="*" />
+            </Grid.RowDefinitions>
+            <Label Text="Body parts" HorizontalOptions="CenterAndExpand" Font="Bold,20" Margin="15"></Label>
+            <ListView Grid.Row="1" ItemsSource="{Binding BodyParts}" RowHeight="100">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid Margin="{StaticResource DefaultPadding}">
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding BindingContext.NavigateToCategoryCommand, Source={x:Reference Root}}"
+                                                          CommandParameter="{Binding}" />
+                                </Grid.GestureRecognizers>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*" />
+                                    <ColumnDefinition Width="100" />
+                                </Grid.ColumnDefinitions>
+
+                                <Label Style="{StaticResource CategoryLabel}" Text="{Binding Title}"></Label>
+                                <Image Source="{Binding Title, Converter={StaticResource ImageConverter}}" Grid.Column="1" Aspect="Fill"></Image>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

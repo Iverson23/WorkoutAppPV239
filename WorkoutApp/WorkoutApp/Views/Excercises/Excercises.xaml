@@ -1,0 +1,43 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="WorkoutApp.Views.Excercises"
+             xmlns:viewModels="clr-namespace:WorkoutApp.ViewModels"
+             x:Name="Root">
+
+    <ContentPage.BindingContext>
+        <viewModels:ExcercisesViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.Content>
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*" />
+                <RowDefinition Height="Auto" />
+            </Grid.RowDefinitions>
+            <ListView ItemsSource="{Binding Excercises}" RowHeight="100">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid Margin="{StaticResource DefaultPadding}">
+                                <Grid.GestureRecognizers>
+                                    <TapGestureRecognizer Command="{Binding BindingContext.NavigateToExcerciseCommand, Source={x:Reference Root}}"
+                                                          CommandParameter="{Binding}" />
+                                </Grid.GestureRecognizers>
+
+                                <Label Style="{StaticResource CategoryLabel}" Text="{Binding Title}" HorizontalOptions="CenterAndExpand"></Label>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Grid Grid.Row="1"
+                  Padding="{StaticResource DefaultPadding}">
+                <Button
+                        Text="Add new excercise"
+                        Command="{Binding BindingContext.NavigateToExcerciseCreationCommand, Source={x:Reference Root}}"
+                        ></Button>
+            </Grid>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

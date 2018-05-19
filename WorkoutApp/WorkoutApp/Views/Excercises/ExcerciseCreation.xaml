@@ -1,0 +1,25 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:WorkoutApp.ViewModels"
+             x:Class="WorkoutApp.Views.ExcerciseCreation">
+
+    <ContentPage.Content>
+        <Grid Margin="10">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+
+            <Label Font="Bold,20" TextColor="Black" Text="Title:"/>
+            <Entry x:Name="TitleEntry" Placeholder="Enter excercise title" Grid.Row="1"></Entry>
+            <Label Font="Bold,20" TextColor="Black" Text="Description:" Grid.Row="2"/>
+            <Editor x:Name="DescriptionEditor" Grid.Row="3"/>
+            <Button Text="Add" Grid.Row="4" Clicked="Button_OnClicked" ></Button>
+            
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>
