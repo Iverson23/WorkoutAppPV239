@@ -14,12 +14,20 @@
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*" />
+                <RowDefinition Height="Auto"/>
             </Grid.RowDefinitions>
             <Label Text="{Binding Category.Description}" HorizontalOptions="CenterAndExpand" Font="Bold,17" Margin="20" />
             <ListView ItemsSource="{Binding Workouts}" Grid.Row="1" RowHeight="100">
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
+                            <ViewCell.ContextActions>
+                                <MenuItem
+                                    Text="Delete"
+                                    IsDestructive="True"
+                                    Command="{Binding BindingContext.DeleteWorkoutCommand, Source={x:Reference Root}}"
+                                    CommandParameter="{Binding}" />
+                            </ViewCell.ContextActions>
                             <Grid Margin="{StaticResource DefaultPadding}">
                                 <Grid.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding BindingContext.NavigateToWorkoutCommand, Source={x:Reference Root}}"
@@ -32,6 +40,13 @@
                     </DataTemplate>
                 </ListView.ItemTemplate>
             </ListView>
+            <Grid Grid.Row="2"
+                  Padding="{StaticResource DefaultPadding}">
+                <Button
+                    Text="Add new workout"
+                    Command="{Binding BindingContext.NavigateToWorkoutCreationCommand, Source={x:Reference Root}}"
+                ></Button>
+            </Grid>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

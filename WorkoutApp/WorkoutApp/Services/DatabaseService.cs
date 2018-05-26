@@ -139,19 +139,8 @@ namespace WorkoutApp.Services
                 Description = "HIIT, or high-intensity interval training, is a training technique in which you give all-out, one hundred percent effort through quick, intense bursts of exercise, followed by short, sometimes active, recovery periods.",
                 Title = "HIIT",
                 WorkoutCategoryId = cardioCategory.Id,
-                Excercises = new List<Excercise>()
-                {
-                    running
-                }
             };
-            await TryCreateWorkoutPlanAsync(hiit);
-
-            hiit.Excercises = new List<Excercise>() {running};
-            await _database.UpdateWithChildrenAsync(hiit);
-            foreach (var ex in hiit.Excercises)
-            {
-                await CreateMapping(hiit.Id, ex.Id, 10, 45);
-            }
+            await TryCreateWorkoutPlanAsync(hiit, new List<Excercise>() { running });
 
             var highRep = new WorkoutPlan()
             {
@@ -159,28 +148,19 @@ namespace WorkoutApp.Services
                 Title = "High rep burn",
                 WorkoutCategoryId = cardioCategory.Id,
             };
-            await TryCreateWorkoutPlanAsync(highRep);
-
-            highRep.Excercises = new List<Excercise>()
+            await TryCreateWorkoutPlanAsync(highRep, new List<Excercise>()
             {
                 lunges,
                 squat,
                 crunches
-            };
-            await _database.UpdateWithChildrenAsync(highRep);
-
-            foreach (var ex in highRep.Excercises)
-            {
-                await CreateMapping(highRep.Id, ex.Id, ex.Id, ex.Id * 3);
-            }
-            
+            });
 
             await TryCreateWorkoutPlanAsync(new WorkoutPlan()
             {
                 Description = "On StrongLifts 5×5 you workout three times a week. Each workout you do three barbell exercises for sets of five reps. The five exercises you’ll do on StrongLifts 5×5 are the Squat, Bench Press, Deadlift, Overhead Press and Barbell Row. Together they work your whole body.",
                 Title = "5 x 5",
                 WorkoutCategoryId = strengthCategory.Id
-            });
+            }, null);
 
 
             #endregion
@@ -268,6 +248,18 @@ namespace WorkoutApp.Services
             }
         }
 
+        public async Task<IList<Excercise>> TryGetAllExcercisesAsync()
+        {
+            try
+            {
+                return await _database.Table<Excercise>().ToListAsync();
+            }
+            catch
+            {
+                return new List<Excercise>();
+            }
+        }
+
         #endregion
 
         #region Create
@@ -323,11 +315,17 @@ namespace WorkoutApp.Services
             }
         }
 
-        public async Task<bool> TryCreateWorkoutPlanAsync(WorkoutPlan workout)
+        public async Task<bool> TryCreateWorkoutPlanAsync(WorkoutPlan workout, List<Excercise> excercises)
         {
             try
             {
                 await _database.InsertAsync(workout);
+                workout.Excercises = excercises;
+                await _database.UpdateWithChildrenAsync(workout);
+                foreach (var ex in workout.Excercises)
+                {
+                    await CreateMapping(workout.Id, ex.Id, ex.Sets, ex.Reps);
+                }
                 return true;
             }
             catch

@@ -17,7 +17,7 @@ namespace WorkoutApp.Views
 			InitializeComponent ();
 		}
 
-	    protected async override void OnAppearing()
+	    protected override async void OnAppearing()
 	    {
 	        await ViewModel.LoadWorkouts();
 	        base.OnAppearing();

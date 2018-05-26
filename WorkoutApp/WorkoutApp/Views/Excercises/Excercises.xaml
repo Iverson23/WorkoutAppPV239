@@ -19,6 +19,13 @@
                 <ListView.ItemTemplate>
                     <DataTemplate>
                         <ViewCell>
+                            <ViewCell.ContextActions>
+                                <MenuItem
+                                    Text="Delete"
+                                    IsDestructive="True"
+                                    Command="{Binding BindingContext.DeleteExcerciseCommand, Source={x:Reference Root}}"
+                                    CommandParameter="{Binding}" />
+                            </ViewCell.ContextActions>
                             <Grid Margin="{StaticResource DefaultPadding}">
                                 <Grid.GestureRecognizers>
                                     <TapGestureRecognizer Command="{Binding BindingContext.NavigateToExcerciseCommand, Source={x:Reference Root}}"

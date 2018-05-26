@@ -1,4 +1,6 @@
-﻿using System.Collections.ObjectModel;
+﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.Linq;
 using System.Threading.Tasks;
 using WorkoutApp.Models;
 using WorkoutApp.Services;
@@ -11,6 +13,8 @@ namespace WorkoutApp.ViewModels
     {
         private ObservableCollection<WorkoutPlan> _workoutPlans = new ObservableCollection<WorkoutPlan>();
         private ObservableCollection<WorkoutCategory> _categories = new ObservableCollection<WorkoutCategory>();
+        private ObservableCollection<Excercise> _excercises = new ObservableCollection<Excercise>();
+        private ObservableCollection<Excercise> _dynamicExcercises = new ObservableCollection<Excercise>();
 
         private Command<WorkoutCategory> _navigateToCategoryCommand;
         public Command<WorkoutCategory> NavigateToCategoryCommand => _navigateToCategoryCommand ?? (_navigateToCategoryCommand = new Command<WorkoutCategory>(NavigateToCategory));
@@ -21,11 +25,16 @@ namespace WorkoutApp.ViewModels
         private Command<Excercise> _navigateToExcerciseCommand;
         public Command<Excercise> NavigateToExcerciseCommand => _navigateToExcerciseCommand ?? (_navigateToExcerciseCommand = new Command<Excercise>(NavigateToExcercise));
 
-        public WorkoutPlan Workout
-        {
-            get;
-            set;
-        }
+        private Command _navigateToWorkoutCreationCommand;
+        public Command NavigateToWorkoutCreationCommand => _navigateToWorkoutCreationCommand ?? (_navigateToWorkoutCreationCommand = new Command(NavigateToWorkoutCreation));
+        private Command<WorkoutPlan> _deleteWorkoutCommand;
+
+        public Command<WorkoutPlan> DeleteWorkoutCommand => _deleteWorkoutCommand ?? (_deleteWorkoutCommand = new Command<WorkoutPlan>(DeleteWorkout));
+
+        private Command<Excercise> _deleteExcerciseFromDynamicsCommand;
+
+        public Command<Excercise> DeleteExcerciseFromDynamicsCommand => _deleteExcerciseFromDynamicsCommand ?? (_deleteExcerciseFromDynamicsCommand = new Command<Excercise>(ex => DynamicExcercises.Remove(ex)));
+        public WorkoutPlan Workout { get; set; } = new WorkoutPlan();
 
         public WorkoutCategory Category
         {
@@ -47,6 +56,24 @@ namespace WorkoutApp.ViewModels
             set
             {
                 _categories = value;
+                OnPropertyChanged();
+            }
+        }
+        public ObservableCollection<Excercise> Excercises
+        {
+            get => _excercises;
+            set
+            {
+                _excercises = value;
+                OnPropertyChanged();
+            }
+        }
+        public ObservableCollection<Excercise> DynamicExcercises
+        {
+            get => _dynamicExcercises;
+            set
+            {
+                _dynamicExcercises = value;
                 OnPropertyChanged();
             }
         }
@@ -87,6 +114,34 @@ namespace WorkoutApp.ViewModels
                 ViewModel = this
             });
         }
+        private async void NavigateToWorkoutCreation()
+        {
+            Workout = new WorkoutPlan();
+            DynamicExcercises.Clear();
+
+            await Navigation.PushAsync(new WorkoutCreation()
+            {
+                Title = "New " + Category.Title + " workout",
+                ViewModel = this
+            });
+        }
+
+        public async Task NavigateToWorkoutExcerciseAdding()
+        {
+            await Navigation.PushAsync(new WorkoutAddExcercise()
+            {
+                Title = "Add new excercise",
+                ViewModel = this
+            });
+        }
+
+        private async void DeleteWorkout(WorkoutPlan workout)
+        {
+            if (await WorkoutDb.TryDeleteWorkoutPlanAsync(workout))
+            {
+                Workouts.Remove(workout);
+            }
+        }
         public async Task LoadWorkouts()
         {
             Workouts = new ObservableCollection<WorkoutPlan>(
@@ -100,10 +155,16 @@ namespace WorkoutApp.ViewModels
                     await WorkoutDb.TryGetAllWorkoutCategoriesAsync()
                 );
         }
-
-        public async Task AddWorkout(WorkoutPlan workout)
+        public async Task LoadExcercises()
         {
-            await WorkoutDb.TryCreateWorkoutPlanAsync(workout);
+            Excercises = new ObservableCollection<Excercise>(
+                await WorkoutDb.TryGetAllExcercisesAsync()
+            );
+        }
+
+        public async Task AddWorkout()
+        {
+            await WorkoutDb.TryCreateWorkoutPlanAsync(Workout, DynamicExcercises.ToList());
             await Navigation.PopAsync();
         }
     }

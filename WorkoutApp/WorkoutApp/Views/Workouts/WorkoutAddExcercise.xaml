@@ -1,0 +1,42 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:viewModels="clr-namespace:WorkoutApp.ViewModels"
+             x:Class="WorkoutApp.Views.WorkoutAddExcercise">
+    <ContentPage.BindingContext>
+        <viewModels:WorkoutsViewModel />
+    </ContentPage.BindingContext>
+
+    <ContentPage.Content>
+        <Grid Margin="10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="Auto"></ColumnDefinition>
+                <ColumnDefinition Width="*"></ColumnDefinition>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="*"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+                <RowDefinition Height="Auto"></RowDefinition>
+            </Grid.RowDefinitions>
+            <Label Grid.ColumnSpan="2" Font="Bold,20" TextColor="Black" Text="Select excercise"/>
+            <ListView Grid.ColumnSpan="2" Grid.Row="1" ItemsSource="{Binding Excercises}" RowHeight="50" x:Name="excercisesView">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid Margin="{StaticResource DefaultPadding}">
+                                <Label Text="{Binding Title}" Font="Bold, Large" HorizontalOptions="CenterAndExpand"></Label>
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Label Font="Bold,20" Margin="10,10,10,0" TextColor="Black" Text="Sets:" Grid.Row="2"/>
+            <Entry x:Name="Sets" Grid.Row="2" Grid.Column="1"/>
+            <Label Font="Bold,20" Margin="10,10,10,0" TextColor="Black" Text="Reps:" Grid.Row="3"/>
+            <Entry x:Name="Reps" Grid.Row="3" Grid.Column="1"/>
+            <Button Text="Add excercise" Grid.Row="4" Grid.ColumnSpan="2" Clicked="AddExcerciseButton_OnClicked" ></Button>
+        </Grid>
+    </ContentPage.Content>
+</ContentPage>

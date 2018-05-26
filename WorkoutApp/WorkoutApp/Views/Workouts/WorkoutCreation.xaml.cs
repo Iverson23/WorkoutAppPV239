@@ -24,15 +24,17 @@ namespace WorkoutApp.Views
 			InitializeComponent ();
 		}
 
-	    private async Task Button_OnClicked(object sender, EventArgs e)
+	    private async Task AddPlanButton_OnClicked(object sender, EventArgs e)
 	    {
-	        WorkoutPlan workout = new WorkoutPlan()
-	        {
-	            WorkoutCategoryId = ViewModel.Category.Id,
-	            Description = this.DescriptionEditor.Text,
-	            Title = this.TitleEntry.Text
-	        };
-	        await ViewModel.AddWorkout(workout);
+	        ViewModel.Workout.WorkoutCategoryId = ViewModel.Category.Id;
+	        ViewModel.Workout.Description = this.DescriptionEditor.Text;
+            ViewModel.Workout.Title = this.TitleEntry.Text;
+	        await ViewModel.AddWorkout();
 	    }
+
+	    private async Task AddExcerciseButton_OnClicked(object sender, EventArgs e)
+	    {
+	        await ViewModel.NavigateToWorkoutExcerciseAdding();
+        }
     }
 }

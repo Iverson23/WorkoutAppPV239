@@ -1,12 +1,15 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://xamarin.com/schemas/2014/forms"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="WorkoutApp.Views.WorkoutCreation">
+             x:Class="WorkoutApp.Views.WorkoutCreation"
+             x:Name="Root">
     <ContentPage.Content>
         <Grid Margin="10">
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="Auto"/>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="100"/>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="Auto"/>
@@ -16,7 +19,44 @@
             <Entry x:Name="TitleEntry" Placeholder="Enter workout plan title" Grid.Row="1"></Entry>
             <Label Font="Bold,20" TextColor="Black" Text="Description:" Grid.Row="2"/>
             <Editor x:Name="DescriptionEditor" Grid.Row="3"/>
-            <Button Text="Add" Grid.Row="4" Clicked="Button_OnClicked" ></Button>
+            <Grid Grid.Row="4">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="Auto" />
+                </Grid.ColumnDefinitions>
+                <Label Margin="10" Font="Bold,20" TextColor="Black" Text="Excercises:" />
+                <Button Grid.Column="1" Text="Add" Clicked="AddExcerciseButton_OnClicked"  ></Button>
+            </Grid>
+            
+            <ListView Grid.Row="5" ItemsSource="{Binding DynamicExcercises}" RowHeight="70">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <ViewCell>
+                            <Grid Margin="{StaticResource DefaultPadding}">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="4*" />
+                                    <ColumnDefinition Width="1*" />
+                                    <ColumnDefinition Width="1*" />
+                                    <ColumnDefinition Width="30" />
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="*"/>
+                                </Grid.RowDefinitions>
+
+                                <Label Text="{Binding Title}" Grid.RowSpan="2" VerticalOptions="CenterAndExpand" Font="Bold"></Label>
+                                <Label Text="Sets:" Grid.Column="1"></Label>
+                                <Label Text="Reps:" Grid.Column="2"></Label>
+                                <Label Text="{Binding Sets}" Grid.Row="1" Grid.Column="1"/>
+                                <Label Text="{Binding Reps}" Grid.Row="1" Grid.Column="2"/>
+                                <Button Text="X" Grid.RowSpan="2" Grid.Column="3" VerticalOptions="CenterAndExpand" Font="Bold" TextColor="Red" Command="{Binding BindingContext.DeleteExcerciseFromDynamicsCommand, Source={x:Reference Root}}"
+                                        CommandParameter="{Binding}" />
+                            </Grid>
+                        </ViewCell>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Button Text="Add new plan" Grid.Row="6" Clicked="AddPlanButton_OnClicked" ></Button>
         </Grid>
     </ContentPage.Content>
 </ContentPage>

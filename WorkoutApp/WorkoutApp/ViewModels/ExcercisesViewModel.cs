@@ -19,6 +19,9 @@ namespace WorkoutApp.ViewModels
         private Command _navigateToExcerciseCreationCommand;
         public Command NavigateToExcerciseCreationCommand => _navigateToExcerciseCreationCommand ?? (_navigateToExcerciseCreationCommand = new Command(NavigateToExcerciseCreation));
 
+        private Command<Excercise> _deleteExcerciseCommand;
+
+        public Command<Excercise> DeleteExcerciseCommand => _deleteExcerciseCommand ?? (_deleteExcerciseCommand = new Command<Excercise>(DeleteExcercise));
         public Excercise ExcerciseProp
         {
             get;
@@ -76,9 +79,17 @@ namespace WorkoutApp.ViewModels
         {
             await Navigation.PushAsync(new ExcerciseCreation()
             {
-                Title = "New " + BodyPartProp.ToString() + " excercise",
+                Title = "New " + BodyPartProp.Title + " excercise",
                 ViewModel = this
             });
+        }
+
+        private async void DeleteExcercise(Excercise excercise)
+        {
+            if (await WorkoutDb.TryDeleteExcerciseAsync(excercise))
+            {
+                Excercises.Remove(excercise);
+            }
         }
 
         public async Task AddExcercise(Excercise excercise)
