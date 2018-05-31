@@ -26,8 +26,7 @@ namespace WorkoutApp.Services
             await _database.CreateTableAsync<WorkoutPlan>();
             await _database.CreateTableAsync<BodyPart>();
 
-            
-            //await PopulateDatabase();
+            await PopulateDatabase();
         }
 
         private async Task PopulateDatabase()
@@ -103,33 +102,135 @@ namespace WorkoutApp.Services
                 Title = "Lunges",
                 BodyPartId = legsBodyPart.Id,
                 Description =
-                    "The lunge is a classic fitness exercise for the lower body, which helps the flexibility of the hips and hamstrings, and the strength of the buttocks, hamstrings and hip flexors."
+                    "The lunge is a classic fitness exercise for the lower body, which helps the flexibility of the hips and hamstrings, and the strength of the buttocks, hamstrings and hip flexors.",
+                Sets = 3,
+                Reps = 20
             };
             await TryCreateExcerciseAsync(lunges);
 
             Excercise squat = new Excercise()
-            { 
+            {
                 Title = "Squat",
                 BodyPartId = legsBodyPart.Id,
                 Description = "They’re sometimes referred to as the king of all exercises, and with good reason. Squats are a full-body fitness staple that work the hips, glutes, quads, and hamstrings, and sneakily strengthen the core. Squats may help improve balance and coordination, as well as bone density . Plus, they’re totally functional. Time to banish those sloppy squats and help perfect the go-to move.",
+                Sets = 5,
+                Reps = 5
             };
             await TryCreateExcerciseAsync(squat);
+
+            var running = new Excercise()
+            {
+                Title = "Running",
+                BodyPartId = legsBodyPart.Id,
+                Description = "Running is a method of terrestrial locomotion allowing humans and other animals to move rapidly on foot.",
+                Sets = 10,
+                Reps = 20
+            };
+            await TryCreateExcerciseAsync(running);
 
             var crunches = new Excercise()
             {
                 Title = "Crunches",
                 BodyPartId = absBodyPart.Id,
                 Description = "The crunch is one of the most popular abdominal exercises. It primarily works the rectus abdominis muscle and also works the obliques.",
+                Sets = 3,
+                Reps = 30
             };
             await TryCreateExcerciseAsync(crunches);
 
-            var running = new Excercise()
+            var abWheel = new Excercise()
             {
-                Title = "Running",
-                BodyPartId = legsBodyPart.Id,
-                Description = "Running is a method of terrestrial locomotion allowing humans and other animals to move rapidly on foot."
+                Title = "Ab wheel rollout",
+                BodyPartId = absBodyPart.Id,
+                Description = "Classic abdominal exercise to build strength and muscular density in the abs using an ab wheel."
             };
-            await TryCreateExcerciseAsync(running);
+            await TryCreateExcerciseAsync(abWheel);
+
+            var pullup = new Excercise()
+            {
+                Title = "Pull up",
+                BodyPartId = backBodyPart.Id,
+                Description = "The pull up is perhaps the best exercise you can do if you want to build a strong, lean upper body. All you need is a bar that will support your weight.",
+                Sets = 3,
+                Reps = 10
+            };
+            await TryCreateExcerciseAsync(pullup);
+
+            var chinup = new Excercise()
+            {
+                Title = "Chin up",
+                BodyPartId = backBodyPart.Id,
+                Description = "The chin-up is a strength training exercise. People frequently do this exercise with the intention of strengthening muscles such as the latissimus dorsi and biceps, which extend the shoulder and flex the elbow, respectively."
+            };
+            await TryCreateExcerciseAsync(chinup);
+
+            var dl = new Excercise()
+            {
+                Title = "Deadlift",
+                BodyPartId = backBodyPart.Id,
+                Description = "The deadlift is a weight training exercise in which a loaded barbell or bar is lifted off the ground to the level of the hips, then lowered to the ground.[1] It is one of the three powerlifting exercises, along with the squat and bench press.",
+                Sets = 5,
+                Reps = 5
+            };
+            await TryCreateExcerciseAsync(dl);
+
+            var bp = new Excercise()
+            {
+                Title = "Bench press",
+                BodyPartId = chestBodyPart.Id,
+                Description = "The bench press is an upper body strength training exercise that consists of pressing a weight upwards from a supine position.The exercise works the pectoralis major as well as supporting chest, arm, and shoulder muscles such as the anterior deltoids, serratus anterior, coracobrachialis, scapulae fixers, trapezii, and the triceps.",
+                Sets = 5,
+                Reps = 5
+            };
+            await TryCreateExcerciseAsync(bp);
+
+            var pushup = new Excercise()
+            {
+                Title = "Push up",
+                BodyPartId = chestBodyPart.Id,
+                Description = "A push-up (or press-up) is a common calisthenics exercise performed in a prone position by raising and lowering the body using the arms. Push-ups exercise the pectoral muscles, triceps, and anterior deltoids, with ancillary benefits to the rest of the deltoids, serratus anterior, coracobrachialis and the midsection as a whole.",
+                Sets = 3,
+                Reps = 25
+            };
+            await TryCreateExcerciseAsync(pushup);
+
+            var barbelPress = new Excercise()
+            {
+                Title = "Overhead press",
+                BodyPartId = shouldersBodyPart.Id,
+                Description = "The press, overhead press or shoulder press is a weight training exercise, typically performed while standing, in which a weight is pressed straight upwards from racking position until the arms are locked out overhead.",
+                Sets = 5,
+                Reps = 5
+            };
+            await TryCreateExcerciseAsync(barbelPress);
+
+            var raise = new Excercise()
+            {
+                Title = "Lateral raise",
+                BodyPartId = shouldersBodyPart.Id,
+                Description = "The dumbbell lateral raise is an isolation exercise that strengthens the entire shoulder.",
+                Sets = 3,
+                Reps = 15
+            };
+            await TryCreateExcerciseAsync(raise);
+
+            var curl = new Excercise()
+            {
+                Title = "Biceps curl",
+                BodyPartId = armsBodyPart.Id,
+                Description = "Bicep Curl is an upper body strength move that strengthens and sculpts your arms and make your biceps look and feel stronger than ever."
+            };
+            await TryCreateExcerciseAsync(curl);
+
+            var tri = new Excercise()
+            {
+                Title = "Skull crusher",
+                BodyPartId = armsBodyPart.Id,
+                Description = "Lying triceps extensions, also known as skull crushers and French extensions or French presses, are a strength exercise used in many different forms of strength training.Lying triceps extensions are one of the most stimulating exercises to the entire triceps muscle group in the upper arm.",
+                Sets = 3,
+                Reps = 15
+            };
+            await TryCreateExcerciseAsync(curl);
             #endregion
 
             #region workouts
@@ -152,7 +253,11 @@ namespace WorkoutApp.Services
             {
                 lunges,
                 squat,
-                crunches
+                crunches,
+                pullup,
+                pushup,
+                raise,
+                tri
             });
 
             await TryCreateWorkoutPlanAsync(new WorkoutPlan()
@@ -160,7 +265,12 @@ namespace WorkoutApp.Services
                 Description = "On StrongLifts 5×5 you workout three times a week. Each workout you do three barbell exercises for sets of five reps. The five exercises you’ll do on StrongLifts 5×5 are the Squat, Bench Press, Deadlift, Overhead Press and Barbell Row. Together they work your whole body.",
                 Title = "5 x 5",
                 WorkoutCategoryId = strengthCategory.Id
-            }, null);
+            }, new List<Excercise>()
+            {
+                squat,
+                dl,
+                bp
+            });
 
 
             #endregion
@@ -168,10 +278,10 @@ namespace WorkoutApp.Services
 
         private async Task CreateMapping(int workoutId, int excerciseId, int sets, int reps)
         {
-                var mapping = await TryGetWorkoutMappingAsync(workoutId, excerciseId);
-                mapping.Sets = sets;
-                mapping.Reps = reps;
-                await _database.UpdateAsync(mapping);
+            var mapping = await TryGetWorkoutMappingAsync(workoutId, excerciseId);
+            mapping.Sets = sets;
+            mapping.Reps = reps;
+            await _database.UpdateAsync(mapping);
         }
 
         #endregion
